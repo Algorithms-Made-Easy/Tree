@@ -1,0 +1,73 @@
+package com.tree.traversal;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PreorderTraversal {
+
+	static List<Integer> result;
+
+	public static void main(String[] args) {
+		TreeNode left = new TreeNode(2);
+		TreeNode right = new TreeNode(3);
+		TreeNode root = new TreeNode(1, left, right);
+		left.left = new TreeNode(4);
+		left.right = new TreeNode(5);
+		right.left = new TreeNode(6);
+		right.right = new TreeNode(7);
+
+		result = new ArrayList<Integer>();
+		System.out.println("Preorder Traversal : " + preorderTraversal(root));
+		result = new ArrayList<Integer>();
+		System.out.println("Inorder Traversal : " + inorderTraversal(root));
+		result = new ArrayList<Integer>();
+		System.out.println("Postorder Traversal : " + postorderTraversal(root));
+	}
+
+	public static List<Integer> preorderTraversal(TreeNode root) {
+		if (root != null) {
+			result.add(root.val);
+			preorderTraversal(root.left);
+			preorderTraversal(root.right);
+		}
+		return result;
+	}
+	
+	public static List<Integer> inorderTraversal(TreeNode root) {
+		if (root != null) {
+			inorderTraversal(root.left);
+			result.add(root.val);
+			inorderTraversal(root.right);
+		}
+		return result;
+	}
+	
+	public static List<Integer> postorderTraversal(TreeNode root) {
+		if (root != null) {
+			postorderTraversal(root.left);
+			postorderTraversal(root.right);
+			result.add(root.val);
+		}
+		return result;
+	}
+}
+
+class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
+
+	TreeNode() {
+	}
+
+	TreeNode(int val) {
+		this.val = val;
+	}
+
+	TreeNode(int val, TreeNode left, TreeNode right) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+	}
+}
+
