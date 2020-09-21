@@ -1,0 +1,84 @@
+package com.tree.traversal.recursive;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class CountFullHalfLeafNodes {
+	static int fullNodes = 0;
+	static int halfNodes = 0;
+	static int leafNodes = 0;
+	public static void main(String[] args) {
+		TreeNode left = new TreeNode(2);
+		TreeNode right = new TreeNode(3);
+		TreeNode root = new TreeNode(1, left, right);
+		left.left = new TreeNode(4);
+		right.left = new TreeNode(5, new TreeNode(7), null);
+		right.right = new TreeNode(7, null, new TreeNode(8));
+		
+		countNodesRecursive(root);
+		System.out.println("Recursive \nFull Nodes -> "+fullNodes);
+		System.out.println("Half Nodes -> "+halfNodes);
+		System.out.println("Leaf Nodes -> "+leafNodes);
+		
+		fullNodes = 0; halfNodes = 0; leafNodes = 0; 
+		
+		countNodesIterative(root);
+		System.out.println("\nIterative \nFull Nodes -> "+fullNodes);
+		System.out.println("Half Nodes -> "+halfNodes);
+		System.out.println("Leaf Nodes -> "+leafNodes);
+	}
+	
+	private static void countNodesIterative(TreeNode root) {
+		if(root == null)
+			return;
+		Queue<TreeNode> q = new LinkedList<>();
+		q.add(root);
+		while(!q.isEmpty()) {
+			TreeNode current = q.remove();
+			if(current.left != null && current.right != null) {
+				fullNodes++;
+				q.add(current.left);
+				q.add(current.right);
+			}
+			else if(current.left != null || current.right != null) {
+				halfNodes++;
+				q.add(current.left != null ? current.left : current.right);
+			}
+			else
+				leafNodes++;
+		}
+	}
+
+	private static void countNodesRecursive(TreeNode node)  {
+		if(node == null)
+			return;
+		
+		if(node.left != null && node.right != null)
+			fullNodes++;
+		else if(node.left != null || node.right != null)
+			halfNodes++;
+		else 
+			leafNodes++;
+		
+		countNodesRecursive(node.left);
+		countNodesRecursive(node.right);
+	}
+}
+public class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
+
+	TreeNode() {
+	}
+
+	TreeNode(int val) {
+		this.val = val;
+	}
+
+	TreeNode(int val, TreeNode left, TreeNode right) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+	}
+}
