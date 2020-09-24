@@ -1,0 +1,51 @@
+public class BinaryTreeMaximumPathSum {
+	 
+	static int maxSum = Integer.MIN_VALUE;
+	 
+	 public static void main(String[] args) {
+		TreeNode left = new TreeNode(9);
+		TreeNode right = new TreeNode(20, new TreeNode(15), new TreeNode(7));
+		TreeNode root = new TreeNode(-10, left, right);
+		
+        if(root == null) {
+        	System.out.println("Max Sum is : 0");
+        }
+        else {
+	        maxSum(root);
+		    System.out.println("Max Sum is : "+maxSum);
+        }
+	 }
+	
+	 public static int maxSum(TreeNode node) {
+	    if(node == null ) {
+	        return 0;
+	    }
+	    int left = Math.max(0, maxSum(node.left));  //Max positive sum of left Tree
+	    int right = Math.max(0, maxSum(node.right)); // Max positive sum of right subtree
+	    int currSum = node.val + left + right;      // sum of left, root, right
+	    
+	    maxSum = Math.max(currSum, maxSum);         
+	    
+	    return Math.max(node.val + left, node.val + right);     // root --> max of (left+root or right+root)
+	    
+	}
+}
+
+class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
+
+	TreeNode() {
+	}
+
+	TreeNode(int val) {
+		this.val = val;
+	}
+
+	TreeNode(int val, TreeNode left, TreeNode right) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+	}
+}
