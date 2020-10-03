@@ -1,0 +1,83 @@
+package com.tree.traversal.threaded;
+
+
+public class ThreadedBinaryTree {
+	public static void main(String[] args) {
+		
+		TreeNode dummy = new TreeNode(-1);
+		TreeNode ten = new TreeNode(10);
+		TreeNode eight = new TreeNode(8);
+		TreeNode twelve = new TreeNode(12);
+		TreeNode fifteen = new TreeNode(15);
+		TreeNode two = new TreeNode(2);
+		TreeNode seven = new TreeNode(7);
+		
+		//Adding left and right child nodes
+		ten.left = eight;
+		ten.right = twelve;
+		eight.left = fifteen;
+		eight.right = two;
+		two.left = seven;
+		dummy.left = ten;
+		dummy.right = dummy;
+		dummy.rightThread = true;
+		
+		//Adding threads
+		fifteen.right = eight;
+		fifteen.rightThread = true;
+		seven.right = two;
+		seven.rightThread = true;
+		two.right = ten;
+		two.rightThread = true;
+		twelve.right = dummy;
+		twelve.rightThread = true;
+		
+		inorder(dummy);
+	}
+	
+	//Returns Inorder traversal
+	public static void inorder(TreeNode node) {
+		TreeNode curr = leftmost(node);
+		//while node is not null and is not the dummy node 
+		while(curr != null && curr.val != -1) {
+			//Process Node
+			System.out.print(curr.val +" ");
+			//Update curr
+			if(curr.rightThread)
+				curr = curr.right;
+			else 
+				curr = leftmost(curr.right);
+		}
+	}
+	
+	//Returns non-null leftnost child for the node 
+	private static TreeNode leftmost(TreeNode node) {
+		if(node == null)
+			return null;
+		while(node.left != null) 
+			node = node.left;
+		return node;
+	}
+}
+
+class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
+	boolean rightThread;
+
+	TreeNode() {
+	}
+
+	TreeNode(int val) {
+		this.val = val;
+	}
+
+	TreeNode(int val, TreeNode left, TreeNode right, boolean rightThread) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+		this.rightThread = rightThread;
+	}
+}
+
