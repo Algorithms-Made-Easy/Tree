@@ -1,0 +1,53 @@
+package com.tree.binarysearchtree;
+
+
+public class Search {
+	public static void main(String[] args) {
+		TreeNode left = new TreeNode(4);
+		TreeNode right = new TreeNode(13);
+		TreeNode root = new TreeNode(9, left, right);
+		left.left = new TreeNode(2);
+		left.right = new TreeNode(7);
+		right.right = new TreeNode(17);
+		
+		TreeNode res = search(7, root);
+		if (res != null)
+			System.out.println("Node found");
+		else
+			System.out.println("Node not found");
+	}
+	
+	public static TreeNode search(int val, TreeNode root) {
+		 if(root == null)
+	           return null;
+        
+        if(val == root.val)
+            return root;
+        if(val < root.val)
+            return search(val, root.left);
+        else
+            return search(val, root.right);
+	}
+}
+
+
+class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
+
+	TreeNode() {
+	}
+
+	TreeNode(int val) {
+		this.val = val;
+	}
+
+	TreeNode(int val, TreeNode left, TreeNode right) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+	}
+}
+
+
