@@ -1,0 +1,61 @@
+package com.tree.binarysearchtree;
+
+public class Insert {
+	public static void main(String[] args) {
+		TreeNode left = new TreeNode(5);
+		TreeNode right = new TreeNode(9);
+		TreeNode root = new TreeNode(8, left, right);
+		left.left = new TreeNode(2);
+		left.right = new TreeNode(6);
+		int val = 7;
+		
+		System.out.println("Inorder Traversal before Inserting "+val);
+		inorder(root);
+		
+		insert(val, root);
+		
+		System.out.println("\nInorder Traversal after Inserting "+ val);
+		inorder(root);
+	}
+	
+	public static TreeNode insert(int val, TreeNode root) {
+		if(root == null) {
+			root = new TreeNode(val);
+		}
+		else {
+			if(val < root.val)
+				root.left = insert(val, root.left);
+			else
+				root.right = insert(val, root.right);
+		}
+		return root;
+	}
+	
+	public static void inorder(TreeNode root) {
+		if(root == null)
+			return;
+		inorder(root.left);
+		System.out.print(root.val + " ");
+		inorder(root.right);
+	}
+}
+
+class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
+
+	TreeNode() {
+	}
+
+	TreeNode(int val) {
+		this.val = val;
+	}
+
+	TreeNode(int val, TreeNode left, TreeNode right) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+	}
+}
+
