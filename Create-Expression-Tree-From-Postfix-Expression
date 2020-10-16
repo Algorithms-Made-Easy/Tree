@@ -1,0 +1,73 @@
+package com.tree.traversal.iterative;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
+
+public class ExpressionTree {
+	
+	static List<Character> result;
+	public static void main(String[] args) {
+		//Original Expression : (A+B)*C
+		System.out.println("Creating a tree for expression : (A+B)*C \n"
+				+ "The Postfix Equivalent of this expression is : AB+C*");
+		char[] postfixTree = {'A', 'B', '+', 'C', '*'};
+		CharTreeNode root = createTree(postfixTree, postfixTree.length);
+		
+		result = new ArrayList<Character>();
+		System.out.println("Inorder Traversal for the Expression Tree is : " + inorderTraversal(root));
+	}
+	
+	static CharTreeNode createTree(char[] postfixTree, int size) {
+		
+		Stack<CharTreeNode> s = new Stack<>();
+		for(int i = 0; i < size; i++) {
+			char val = postfixTree[i];
+			if(!isOperator(val)) {
+				CharTreeNode node = new CharTreeNode(val);
+				s.push(node);
+			}
+			else {
+				CharTreeNode right = s.pop();
+				CharTreeNode left = s.pop();
+				CharTreeNode node = new CharTreeNode(val, left, right);
+				s.push(node);
+			}
+		}
+		return s.pop();
+	}
+	
+	public static boolean isOperator(char c) {
+		return c == '+' || c == '-'  || c == '/' || c == '*';
+	}
+	
+	public static List<Character> inorderTraversal(CharTreeNode root) {
+		if (root != null) {
+			inorderTraversal(root.left);
+			result.add(root.val);
+			inorderTraversal(root.right);
+		}
+		return result;
+	}
+}
+
+class CharTreeNode {
+	Character val;
+	CharTreeNode left;
+	CharTreeNode right;
+
+	CharTreeNode() {
+	}
+
+	public CharTreeNode(Character val) {
+		this.val = val;
+	}
+
+	public 	CharTreeNode(Character val, CharTreeNode left, CharTreeNode right) {
+		this.val = val;
+		this.left = left;
+		this.right = right;
+	}
+}
+
